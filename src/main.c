@@ -23,7 +23,7 @@ int main(void)
 
 	UB_VGA_Screen_Init(); // Init VGA-Screen
 
-  UB_VGA_FillScreen(VGA_COL_GREEN);
+  UB_VGA_FillScreen(VGA_COL_CYAN);
   UB_VGA_SetPixel(10,10,10);
 
 
