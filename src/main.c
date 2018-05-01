@@ -25,7 +25,9 @@ int main(void)
 
   UB_VGA_FillScreen(VGA_COL_GREEN);
   UB_VGA_SetPixel(10,10,10);
-
+  UB_VGA_drawLine(10,10 ,50, 50, VGA_COL_RED, 3);
+  UB_VGA_drawLine(50,50 ,100, 50, VGA_COL_RED, 3);
+  UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 
 
 

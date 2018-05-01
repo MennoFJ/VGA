@@ -95,6 +95,38 @@ void UB_VGA_SetPixel(uint16_t xp, uint16_t yp, uint8_t color)
   VGA_RAM1[(yp*(VGA_DISPLAY_X+1))+xp]=color;
 }
 
+//--------------------------------------------------------------
+// draws a line from x_start, y_start to x_stop, y_stop
+// Important : the last Pixel+1 from every line must be black (don't know why??)
+//--------------------------------------------------------------
+
+void UB_VGA_drawLine(uint16_t x_start,uint16_t y_start,uint16_t x_stop, uint16_t y_stop, uint8_t color, uint8_t width)
+{
+	uint16_t dx = x_stop - x_start;
+	uint16_t dy = y_stop - y_start;
+	uint16_t y;
+	if(dx < 0)
+		return;
+	if(dy < 0)
+		return;
+	int x;
+	if(dx < dy)
+	{
+		for(x = y_start ;x <y_stop; x++)
+		{
+			y = y_start + dy * (x - x_start)/dx;
+			UB_VGA_SetPixel(x_start, x, color);
+		}
+	}
+	else
+		for(x = x_start ;x <x_stop; x++)
+		{
+			y = y_start + dy * (x - x_start)/dx;
+			UB_VGA_SetPixel(x, y, color);
+		}
+
+}
+
 
 //--------------------------------------------------------------
 // interne Funktionen
