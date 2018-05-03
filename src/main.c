@@ -17,7 +17,7 @@
 int main(void)
 {
 
-	// dit wordt mijn shit
+	// dit wordt menno's shit
 
 	//  uint32_t n;
 
