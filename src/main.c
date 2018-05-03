@@ -18,7 +18,6 @@ int main(void)
 {
 
 
-
 	//  uint32_t n;
 
 	SystemInit(); // System speed to 168MHz
