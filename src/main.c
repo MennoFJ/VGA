@@ -11,7 +11,7 @@
 //--------------------------------------------------------------
 
 #include "main.h"
-#include "stm32_ub_vga_screen.h"
+
 
 int main(void)
 {
