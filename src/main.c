@@ -12,15 +12,21 @@
 
 #include "main.h"
 #include "stm32_ub_vga_screen.h"
-#include <math.h>
 
 int main(void)
 {
 
-
 	//  uint32_t n;
-	//hoi
+
+	char *functionality = "ARM-board \r";		// Showed on UART3 at startup
+
 	SystemInit(); // System speed to 168MHz
+
+
+	UART_init();			// Initialise UART3 Without interrupt
+	UART_printf(256,functionality);
+
+//	UART_INT_init();		// Initialise UART3 With interrupt enabled (Also use UART_init())
 
 	UB_VGA_Screen_Init(); // Init VGA-Screen
 
@@ -31,11 +37,9 @@ int main(void)
 	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 
 
-  // joo zou dit werken
-
   while(1)
   {
-	  // put the code here
+
   }
 }
 
