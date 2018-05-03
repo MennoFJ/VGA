@@ -17,6 +17,7 @@
 int main(void)
 {
 
+	// dit wordt mijn shit
 
 	//  uint32_t n;
 	//hoi
@@ -31,7 +32,7 @@ int main(void)
 	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 
 
-  // joo zou dit werken
+
 
   while(1)
   {

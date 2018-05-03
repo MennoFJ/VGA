@@ -125,7 +125,7 @@
 								<listOptionValue builtIn="false" value="../Libraries/Device/STM32F4xx/Include"/>
 								<listOptionValue builtIn="false" value="../Libraries/STM32F4xx_StdPeriph_Driver/inc"/>
 								<listOptionValue builtIn="false" value="../Utilities/STM32F4-Discovery"/>
-								<listOptionValue builtIn="false" value="../Utilities/ub_lib"/>
+								<listOptionValue builtIn="false" value="../Libraries/ub_lib"/>
 							</option>
 							<inputType id="com.atollic.truestudio.gcc.input.1553889162" superClass="com.atollic.truestudio.gcc.input"/>
 						</tool>
