@@ -17,6 +17,8 @@
 int main(void)
 {
 
+	// dit wordt mijn shit
+
 	//  uint32_t n;
 
 	SystemInit(); // System speed to 168MHz
