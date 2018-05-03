@@ -18,6 +18,7 @@ int main(void)
 {
 
 	// dit wordt menno's shit
+	//hoi Menno. Fuck you
 
 	//  uint32_t n;
 
