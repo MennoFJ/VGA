@@ -11,18 +11,14 @@
 //--------------------------------------------------------------
 
 #include "main.h"
-#include "stm32_ub_vga_screen.h"
-#include <math.h>
+
+
+extern char string[100];
 
 int main(void)
 {
 
-
-	//  uint32_t n;
-	//hoi
-	SystemInit(); // System speed to 168MHz
-
-	UB_VGA_Screen_Init(); // Init VGA-Screen
+	IO_init();
 
 	UB_VGA_FillScreen(VGA_COL_GREEN);
 	UB_VGA_SetPixel(10,10,10);
@@ -31,11 +27,10 @@ int main(void)
 	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 
 
-  // joo zou dit werken
 
   while(1)
   {
-	  // put the code here
+	  InterpretData(string);
   }
 }
 
