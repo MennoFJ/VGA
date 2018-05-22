@@ -29,7 +29,7 @@ typedef struct parsed{
 	char* font;
 	uint16_t x[3];
 	uint16_t y[3];
-	uint8_t color;
+	char* color;
 	uint16_t width;
 	uint8_t bitmapNr;
 	uint16_t timeMS;

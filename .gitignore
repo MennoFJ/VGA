@@ -1,9 +1,3 @@
 
 Debug/
 .settings/
-
-VGA_application Debug\.launch
-
-Debug_STM32F407VG_FLASH\.ld
-
-\.cproject
