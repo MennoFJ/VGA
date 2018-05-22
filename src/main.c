@@ -18,19 +18,21 @@ int main(void)
 
 	IO_init();
 
-	UB_VGA_FillScreen(VGA_COL_GREEN);
-	UB_VGA_SetPixel(10,10,10);
-	UB_VGA_drawLine(10,10 ,50, 50, VGA_COL_RED, 3);
-	UB_VGA_drawLine(50,50 ,100, 50, VGA_COL_RED, 3);
-	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
+	UB_VGA_FillScreen(VGA_COL_BLACK);
+//	UB_VGA_SetPixel(10,10,10);
+//	UB_VGA_drawLine(10,10 ,50, 50, 3, VGA_COL_RED);
+//	UB_VGA_drawLine(50,50 ,100, 50,3, VGA_COL_RED);
+//	UB_VGA_drawLine(100,50 ,100, 150, 3, VGA_COL_RED);
 	parser parsedData;
-	UB_VGA_drawLine(1,1 ,100, 100, VGA_COL_RED, 3);
-	UB_VGA_drawLine(100,1 ,100, 1, VGA_COL_RED, 3);
+	UB_VGA_drawLine(1,1 ,100, 100, 3, VGA_COL_RED);
+	//UB_VGA_drawLine(100,1 ,100, 1, 1 ,VGA_COL_RED);
+
+
+	UB_VGA_drawRectangle(130,120,100,100,VGA_COL_RED );
 
   while(1)
   {
-	  //UART_printf(sizeof(string), string);
-	  DELAY_s(1);
+	  DELAY_ms(200);
 	 InterpretData(&parsedData);
   }
 }
