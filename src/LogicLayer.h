@@ -25,12 +25,11 @@ Revision:	1
 
 //struct for command data. The data is gathered from the UARD and parsed by the parse function.
 typedef struct parsed{
-	char* command;
-	char* tekst;
+	char tekst[100];
 	char* font;
 	uint16_t x[3];
 	uint16_t y[3];
-	uint8_t color;
+	char* color;
 	uint16_t width;
 	uint8_t bitmapNr;
 	uint16_t timeMS;

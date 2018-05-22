@@ -11,7 +11,7 @@
 //--------------------------------------------------------------
 
 #include "main.h"
-
+extern char string[100];
 
 int main(void)
 {
@@ -24,10 +24,13 @@ int main(void)
 	UB_VGA_drawLine(50,50 ,100, 50, VGA_COL_RED, 3);
 	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 	parser parsedData;
-
+	UB_VGA_drawLine(1,1 ,100, 100, VGA_COL_RED, 3);
+	UB_VGA_drawLine(100,1 ,100, 1, VGA_COL_RED, 3);
 
   while(1)
   {
+	  //UART_printf(sizeof(string), string);
+	  DELAY_s(1);
 	 InterpretData(&parsedData);
   }
 }
