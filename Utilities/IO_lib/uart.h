@@ -26,6 +26,9 @@ To read the UART without interrupt use:
 In the interrupt routine the char is send back to the terminal
 */
 
+#ifndef __UART_H
+#define __UART_H
+
 /****************Libraries******************************/
 
 #include "stm32f4xx.h"
@@ -44,3 +47,4 @@ In the interrupt routine the char is send back to the terminal
 void 		UART_init		(void);
 signed int 	UART_printf		(size_t length, const char *pFormat, ...);
 void 		UART_INT_init	(void);
+#endif//__UART_H

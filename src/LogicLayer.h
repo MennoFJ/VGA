@@ -11,6 +11,10 @@ Revision:	1
            --
 */
 
+#ifndef __LOGICLAYER_H
+#define __LOGICLAYER_H
+
+
 /****************Libraries******************************/
 #include "main.h"
 
@@ -18,4 +22,21 @@ Revision:	1
 /****************Defines********************************/
 
 /****************Function Prototypes********************/
-void InterpretData(char *string);
+
+//struct for command data. The data is gathered from the UARD and parsed by the parse function.
+typedef struct parsed{
+	char* command;
+	char* tekst;
+	char* font;
+	uint16_t x[3];
+	uint16_t y[3];
+	uint8_t color;
+	uint16_t width;
+	uint8_t bitmapNr;
+	uint16_t timeMS;
+}parser;
+
+void InterpretData(struct parsed *parsedData);
+
+
+#endif// __LOGICLAYER_H
