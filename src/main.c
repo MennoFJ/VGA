@@ -12,7 +12,7 @@
 
 #include "main.h"
 extern char string[100];
-
+char *ding = "hoi/n";
 int main(void)
 {
 
@@ -20,18 +20,19 @@ int main(void)
 
 	UB_VGA_FillScreen(VGA_COL_GREEN);
 	UB_VGA_SetPixel(10,10,10);
-	UB_VGA_drawLine(10,10 ,50, 50, VGA_COL_RED, 3);
-	UB_VGA_drawLine(50,50 ,100, 50, VGA_COL_RED, 3);
-	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
+//	UB_VGA_drawLine(10,10 ,50, 50, VGA_COL_RED, 3);
+//	UB_VGA_drawLine(50,50 ,100, 50, VGA_COL_RED, 3);
+//	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 	parser parsedData;
-	UB_VGA_drawLine(1,1 ,100, 100, VGA_COL_RED, 3);
-	UB_VGA_drawLine(100,1 ,100, 1, VGA_COL_RED, 3);
+	UB_VGA_drawLine(1,1 ,100, 100,3, VGA_COL_RED);
+//	UB_VGA_drawLine(100,1 ,100, 1, 3, VGA_COL_RED);
 
   while(1)
   {
 	  //UART_printf(sizeof(string), string);
-	  DELAY_s(1);
+	  DELAY_ms(100);
 	 InterpretData(&parsedData);
+	// UART_printf(sizeof(ding), ding);
   }
 }
 
