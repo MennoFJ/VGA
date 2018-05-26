@@ -25,13 +25,19 @@ int main(void)
 //	UB_VGA_drawLine(100,50 ,100, 150, VGA_COL_RED, 3);
 	parser parsedData;
 	UB_VGA_drawLine(1,1 ,100, 100,3, VGA_COL_RED);
+
+	UB_VGA_drawTriangle(10,10,130, 120,240, 200, VGA_COL_WHITE);
+	UB_VGA_drawTriangle(100,100,30, 20,250, 250, VGA_COL_MAGENTA);
+	UB_VGA_drawTriangle(130,130,17, 12,333, 233, VGA_COL_YELLOW);
 //	UB_VGA_drawLine(100,1 ,100, 1, 3, VGA_COL_RED);
 
   while(1)
   {
+	  //memset(string, 0, sizeof(string));
 	  //UART_printf(sizeof(string), string);
 	  DELAY_ms(100);
 	 InterpretData(&parsedData);
+	 //memset(string, 0, sizeof(string));
 	// UART_printf(sizeof(ding), ding);
   }
 }

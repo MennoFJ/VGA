@@ -29,7 +29,7 @@ In the interrupt routine the char is send back to the terminal
 
 /****************Globals********************************/
 char string[100];
-int charcounter = 0;
+volatile int charcounter = 0;
 
 void UART_init(void)
 /* UART Initialize
@@ -102,8 +102,8 @@ void USART2_IRQHandler(void)
  * in an global or something can be done here.
  */
 {
-	if ( charcounter == 0 )
-		memset(string, 0, sizeof string);
+//	if ( charcounter == 0 )
+//		memset(string, 0, sizeof(string));
 
 	// check if the USART2 receive interrupt flag was set
 	if( USART_GetITStatus(USART2, USART_IT_RXNE))
@@ -116,6 +116,7 @@ void USART2_IRQHandler(void)
 		if(c <= 13)
 		{
 			charcounter = 0;
+			//memset(string, 0, sizeof(string));
 		}
 		else
 		{
