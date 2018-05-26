@@ -12,10 +12,12 @@ Revision:	1
 */
 
 #include "ioLayer.h"
-
+extern volatile int charcounter;
+extern char string[100];
 
 void IO_init(void)
 {
+
 	SystemInit(); // System speed to 168MHz
 
 	UB_VGA_Screen_Init(); // Init VGA-Screen

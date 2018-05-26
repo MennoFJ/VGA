@@ -38,11 +38,13 @@ uint8_t UB_VGA_SetPixel(uint16_t xp, uint16_t yp, uint8_t color)
 	//checks for incorrect color.
 	if (color < 0 ||color > 256 )
 		error = 2;
-	if(xp>=VGA_DISPLAY_X) xp=0;
-	if(yp>=VGA_DISPLAY_Y) yp=0;
+	if((xp>=VGA_DISPLAY_X )||(yp>=VGA_DISPLAY_Y))
+	{}
+	else
+		VGA_RAM1[(yp*(VGA_DISPLAY_X+1))+xp]=color;
 
 	// Write pixel to ram
-	VGA_RAM1[(yp*(VGA_DISPLAY_X+1))+xp]=color;
+
 	return error;
 }
 
@@ -325,9 +327,12 @@ uint8_t UB_VGA_drawTriangle(uint16_t x_one,uint16_t y_one,uint16_t x_two, uint16
 	else
 		smallest_x =x_tree;
 	y_plus = largest_y;
-
+	y_overflowCounter = 0;
 	for(y = smallest_y +1; y < largest_y; y++)
 	{
+		y_overflowCounter++;
+		if(y_overflowCounter > VGA_DISPLAY_Y)
+			break;
 		colormatch_x = 0;
 		colormatch_xplus= 0;
 		x_plus = largest_x +1;
