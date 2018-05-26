@@ -18,8 +18,8 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok);
 uint8_t triangleStructFiller(struct parsed *parsedData, char* tok);
 uint8_t getColor(const char* color);
 uint8_t textStructFiller(struct parsed *parsedData, char* tok);
-uint8_t delayStructFiller(struct parsed *parsedData, char* tok);
 uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok);
+uint8_t delayStructFiller(struct parsed *parsedData, char* tok);
 extern char string[100];
 char str2[100];
 extern volatile int charcounter;
@@ -89,7 +89,7 @@ uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 		counter++;
 	}
 	UB_VGA_drawLine(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],parsedData->width, parsedData->color);
-	return 1;
+	return 0;
 }
 
 uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
@@ -119,7 +119,7 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 		counter++;
 	}
 	UB_VGA_drawRectangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],  VGA_COL_BLUE);
-	return 1;
+	return 0;
 }
 
 
@@ -150,7 +150,7 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 		counter++;
 	}
 	UB_VGA_drawEllipse(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],  parsedData->color);
-	return 1;
+	return 0;
 }
 
 
@@ -184,8 +184,8 @@ uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 
 		counter++;
 	}
-	UB_VGA_drawTriangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1], parsedData->x[2], parsedData->y[2],  parsedData->color);
-	return 1;
+	UB_VGA_drawTriangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1], parsedData->x[2], parsedData->y[3],  parsedData->color);
+	return 0;
 }
 
 uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
@@ -212,7 +212,7 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 	}
 	// bitmap UB_VGA_drawTriangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1], parsedData->x[2], parsedData->y[3],  parsedData->color);
 	//Draw_Bitmap(uint8_t *image,parsedData->x[0], parsedData->y[0]);
-	return 1;
+	return 0;
 }
 
 uint8_t textStructFiller(struct parsed *parsedData, char* tok)
@@ -240,12 +240,12 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 		counter++;
 	}
 	Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
-	return 1;
+	return 0;
 }
+
 
 uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 {
-	//char *tok = strtok(string, " ,.-");
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -258,17 +258,14 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 		default:
 			break;
 		}
-//tekst
 		counter++;
 	}
 	DELAY_ms(parsedData->timeMS);
-	return 1;
+	return 0;
 }
-
 
 uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 {
-	//char *tok = strtok(string, " ,.-");
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -276,16 +273,15 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 
 		switch(counter)
 		{
-		case 0:  parsedData->color =  getColor(tok);;
+		case 0: parsedData->color =  getColor(tok);
 		break;
 		default:
 			break;
 		}
-//tekst
 		counter++;
 	}
 	UB_VGA_FillScreen(parsedData->color);
-	return 1;
+	return 0;
 }
 
 uint8_t getColor(const char* color)
