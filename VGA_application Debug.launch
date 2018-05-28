@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.atollic.hardwaredebug.launch.launchConfigurationType">
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.cpu_core" value="Cortex-M"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.device" value="STM32F407VG"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.endian" value="little"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.init_speed" value="4000"/>
+<booleanAttribute key="com.atollic.hardwaredebug.jlink_common.jlink_check_serial_number" value="false"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.jlink_script_path" value=""/>
+<booleanAttribute key="com.atollic.hardwaredebug.jlink_common.jlink_script_used" value="false"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.jlink_trace_port_cfg_path" value="/opt/Atollic_TrueSTUDIO_for_STM32_x86_64_9.0.1/ide/plugins/com.atollic.truestudio.tsp.stm32_1.0.0.20180420-1214/tsp/etm/stm32f4xx.init"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.jlink_txt_serial_number" value=""/>
+<booleanAttribute key="com.atollic.hardwaredebug.jlink_common.scan_chain_auto" value="true"/>
+<intAttribute key="com.atollic.hardwaredebug.jlink_common.scan_chain_irpre" value="0"/>
+<intAttribute key="com.atollic.hardwaredebug.jlink_common.scan_chain_pos" value="0"/>
+<stringAttribute key="com.atollic.hardwaredebug.jlink_common.selected_rtos" value="No RTOS"/>
 <intAttribute key="com.atollic.hardwaredebug.launch.formatVersion" value="2"/>
 <stringAttribute key="com.atollic.hardwaredebug.launch.hwinitCommands" value="# Initialize your hardware here&#10;"/>
-<stringAttribute key="com.atollic.hardwaredebug.launch.initCommands" value=""/>
 <stringAttribute key="com.atollic.hardwaredebug.launch.ipAddress" value="localhost"/>
 <stringAttribute key="com.atollic.hardwaredebug.launch.jtagDevice" value="ST-LINK"/>
 <intAttribute key="com.atollic.hardwaredebug.launch.portNumber" value="61234"/>
@@ -19,18 +31,18 @@
 <booleanAttribute key="com.atollic.hardwaredebug.launch.useRemoteTarget" value="true"/>
 <booleanAttribute key="com.atollic.hardwaredebug.launch.verify_flash_download" value="true"/>
 <booleanAttribute key="com.atollic.hardwaredebug.stlink.enable_logging" value="false"/>
-<stringAttribute key="com.atollic.hardwaredebug.stlink.log_file" value="C:\Users\Menno\Atollic\TrueSTUDIO\STM32_workspace_9.0\VGA_API\Debug\st-link_gdbserver_log.txt"/>
+<stringAttribute key="com.atollic.hardwaredebug.stlink.log_file" value="/home/menno/Documents/Atollic_projects/VGA_application/Debug/st-link_gdbserver_log.txt"/>
 <booleanAttribute key="com.atollic.hardwaredebug.stlink.stlink_check_serial_number" value="false"/>
 <stringAttribute key="com.atollic.hardwaredebug.stlink.stlink_txt_serial_number" value=""/>
 <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="${TOOLCHAIN_PATH}/arm-atollic-eabi-gdb"/>
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/VGA_API.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="VGA_API"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/VGA_application.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="VGA_application"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/VGA_API"/>
+<listEntry value="/VGA_application"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
