@@ -280,10 +280,9 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 		}
 		counter++;
 	}
-	charcounter = 0;
-	memset(string, 0, sizeof string);
+//	charcounter = 0;
+//	memset(string, 0, sizeof string);
 	DELAY_ms(parsedData->timeMS);
-	parsedData->timeMS = 0;
 	return 0;
 }
 
