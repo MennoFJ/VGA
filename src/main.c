@@ -29,7 +29,7 @@ int main(void)
 	UB_VGA_drawRectangle(100,100,130, 120, VGA_COL_BLUE);
 //	UB_VGA_drawLine(100,1 ,100, 1, 3, VGA_COL_RED);
 	UB_VGA_drawTriangle(10,10,130, 120,240, 2000, VGA_COL_BLUE);
-
+//hoi
   while(1)
   {
 	  //memset(string, 0, sizeof(string));
