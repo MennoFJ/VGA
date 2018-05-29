@@ -48,7 +48,7 @@ void InterpretData(struct parsed *parsedData)
 
 	memset(tempString, 0, sizeof tempString);
 	while(1){
-		DELAY_ms(100);
+		DELAY_ms(50);//100
 		if(error > 0)
 		{
 			UART_printf(256, error_msg(error));
@@ -61,7 +61,7 @@ void InterpretData(struct parsed *parsedData)
 
 			strcpy(tempString,tok);
 			strcpy(parsedData->text,tok);
-			if(strcmp(tempString,"lijn")== 0)
+			if(strcmp("lijn", tempString)== 0)
 				error = lineStructFiller(parsedData, tok);
 			else if(strcmp( "clearscherm" ,tempString)== 0)
 				error = clearscreenStructFiller(parsedData, tok);
@@ -81,7 +81,7 @@ void InterpretData(struct parsed *parsedData)
 			{
 				charcounter = 0;
 				memset(string, 0, sizeof string);
-				error = 7;
+				error = 6;
 				tok = strtok(NULL, ",");
 			}
 			tok = strtok(NULL, ",");
@@ -112,6 +112,8 @@ uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 		case 4: parsedData->width = strtol(tok, NULL, 10);
 		break;
 		case 5: parsedData->color =  getColor(tok);
+		break;
+		case 6: error = 7;
 		break;
 		default:
 			break;
@@ -146,6 +148,8 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 4: parsedData->color =  getColor(tok);
 		break;
+		case 5: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -155,7 +159,7 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 	charcounter = 0;
 	memset(string, 0, sizeof string);
 	error = UB_VGA_drawRectangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],   parsedData->color);
-	return 0;
+	return error;
 }
 
 
@@ -179,6 +183,8 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 4: parsedData->color = getColor(tok);
 		break;
+		case 5: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -188,7 +194,7 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 	charcounter = 0;
 	memset(string, 0, sizeof string);
 	error = UB_VGA_drawEllipse(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],  parsedData->color);
-	return 0;
+	return error;
 }
 
 
@@ -216,6 +222,8 @@ uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 6: parsedData->color =  getColor(tok);
 		break;
+		case 7: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -225,7 +233,7 @@ uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 	charcounter = 0;
 	memset(string, 0, sizeof string);
 	error = UB_VGA_drawTriangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1], parsedData->x[2], parsedData->y[2],  parsedData->color);
-	return 0;
+	return error;
 }
 
 uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
@@ -244,6 +252,8 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 2: parsedData->y[0] = strtol(tok, NULL, 10);
 		break;
+		case 3: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -253,7 +263,7 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 	charcounter = 0;
 	memset(string, 0, sizeof string);
 	error = Draw_Bitmap(parsedData->bitmapNr,parsedData->x[0], parsedData->y[0]);
-	return 0;
+	return error;
 }
 
 uint8_t textStructFiller(struct parsed *parsedData, char* tok)
@@ -274,6 +284,8 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 3: parsedData->color =  getColor(tok);
 		break;
+		case 4: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -283,7 +295,7 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 	charcounter = 0;
 	memset(string, 0, sizeof string);
 	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
-	return 0;
+	return error;
 }
 
 
@@ -299,6 +311,8 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 		{
 		case 0: parsedData->timeMS = strtol(tok, NULL, 10);
 		break;
+		case 1: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -307,7 +321,7 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 //	charcounter = 0;
 //	memset(string, 0, sizeof string);
 	error = DELAY_ms(parsedData->timeMS);
-	return 0;
+	return error;
 }
 
 uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
@@ -322,6 +336,8 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 		{
 		case 0: parsedData->color =  getColor(tok);
 		break;
+		case 1: error = 7;
+		break;
 		default:
 			break;
 		}
@@ -330,7 +346,7 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 	charcounter = 0;
 	memset(string, 0, sizeof string);
 	error = UB_VGA_FillScreen(parsedData->color);
-	return 0;
+	return error;
 }
 
 uint8_t getColor(const char* color)
@@ -351,6 +367,24 @@ uint8_t getColor(const char* color)
 		return VGA_COL_MAGENTA;
 	else if(strcmp("geel", color)== 0)
 		return VGA_COL_YELLOW;
+	else if(strcmp("lichtblauw", color)== 0)
+		return VGA_COL_LBLUE;
+	else if(strcmp("lichtgroen", color)== 0)
+		return VGA_COL_LGREEN;
+	else if(strcmp("lichtrood", color)== 0)
+		return VGA_COL_LRED;
+	else if(strcmp("lichtcyaan", color)== 0)
+		return VGA_COL_LCYAN;
+	else if(strcmp("lichtmagenta", color)== 0)
+		return VGA_COL_LMAGENTA;
+	else if(strcmp("bruin", color)== 0)
+		return VGA_COL_BROWN;
+	else if(strcmp("grijs", color)== 0)
+		return VGA_COL_GREY;
+	else if(strcmp("roze", color)== 0)
+		return VGA_COL_PINK;
+	else if(strcmp("paars", color)== 0)
+		return VGA_COL_PURPLE;
 	else return 0;
 
 }
