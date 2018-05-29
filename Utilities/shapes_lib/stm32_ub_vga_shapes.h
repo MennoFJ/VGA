@@ -37,8 +37,17 @@
 #define  VGA_COL_MAGENTA        0xE3
 #define  VGA_COL_YELLOW         0xFC
 
-#define CHAR_WIDTH 6
-#define CHAR_HEIGHT 8
+
+#define  VGA_COL_LBLUE          0x97
+#define  VGA_COL_LGREEN         0x9E
+#define  VGA_COL_LRED           0xF2
+#define  VGA_COL_LCYAN          0x9B
+#define  VGA_COL_LMAGENTA       0xD3
+#define  VGA_COL_BROWN          0x80
+#define  VGA_COL_GREY	        0x92
+#define  VGA_COL_PINK	        0xF6
+#define  VGA_COL_PURPLE	        0x82
+
 
 
 
