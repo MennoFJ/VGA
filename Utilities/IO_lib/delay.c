@@ -46,7 +46,7 @@ void DELAY_us(volatile unsigned int time)
     }
 }
 
-uint8_t DELAY_ms(volatile unsigned int time)
+uint8_t DELAY_ms(volatile uint8_t time)//unsigned int
 {
 	if(time < 0)
 		return 9;//TIME_NEGATIVE

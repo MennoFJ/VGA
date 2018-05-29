@@ -40,5 +40,5 @@ After that you can use DELAY_s(number of seconds to wait);
 /****************Function Prototypes********************/
 void DELAY_init(void);
 void DELAY_us(unsigned int x);
-uint8_t DELAY_ms(volatile unsigned int time);
+uint8_t DELAY_ms(volatile uint8_t time);
 void DELAY_s(unsigned int x);

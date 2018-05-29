@@ -50,7 +50,7 @@ typedef struct parsed{
 	uint8_t color;
 	uint16_t width;
 	uint8_t bitmapNr;
-	uint16_t timeMS;
+	uint8_t timeMS;
 }parser;
 
 

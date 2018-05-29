@@ -54,7 +54,8 @@ void InterpretData(struct parsed *parsedData)
 			UART_printf(256, error_msg(error));
 			error = 0;
 		}
-		memset(tempString, 0, sizeof tempString);
+//		memset(tempString, 0, sizeof tempString);
+
 		tok = strtok(string, ",");
 		while(tok != NULL)
 		{
@@ -246,7 +247,7 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 
 		switch(counter)
 		{
-		case 0: parsedData->bitmapNr = strtol(tok, NULL, 10);//voeg nummer toe aan bitmap
+		case 0: parsedData->bitmapNr = strtol(tok, NULL, 10);
 		break;
 		case 1: parsedData->x[0] = strtol(tok, NULL, 10);
 		break;
@@ -320,7 +321,7 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 	}
 //	charcounter = 0;
 //	memset(string, 0, sizeof string);
-	error = DELAY_ms(parsedData->timeMS);
+	error = DELAY_ms(parsedData->timeMS);//timeMS
 	return error;
 }
 
