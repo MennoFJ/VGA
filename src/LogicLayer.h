@@ -21,9 +21,27 @@ Revision:	1
 
 /****************Defines********************************/
 
+#define ERROR_CODES(X)                                          			\
+    X(0,    E_SUCCESS,            		"No error at all!")         		\
+    X(1,   OUT_OF_BOUND,               	"x or y out of bounds")       	 	\
+    X(2,   INVALID_COLOR,         		"Invalid color")       				\
+    X(3,   INCORRECT_LINE_WIDTH,       	"Line width is incorrect")        	\
+    X(4,   RADIUS_TOO_BIG,            	"Radius too big")     				\
+    X(5,   BITMAP_NOT_AVAILABLE,  		"Bitmap number does not exist") 	\
+	X(6,   INVALID_COMMAND,  			"Invalid command")        			\
+	X(7,   TOO_MANY_ARGUMENTS,  		"Too many arguments")       		\
+	X(8,   TOO_FEW_ARGUMENTS,  			"Too few arguments")        		\
+	X(9,   TIME_NEGATIVE,  				"Time cannot be negative")        	\
+
+
+#define ERROR_ENUM(ID, NAME, TEXT) NAME = ID,
+#define ERROR_TEXT(ID, NAME, TEXT) case ID: return TEXT;
 /****************Function Prototypes********************/
 
 //struct for command data. The data is gathered from the UARD and parsed by the parse function.
+enum {
+    ERROR_CODES(ERROR_ENUM)
+};
 typedef struct parsed{
 	char text[100];
 	char* font;
@@ -35,7 +53,9 @@ typedef struct parsed{
 	uint16_t timeMS;
 }parser;
 
+
 void InterpretData(struct parsed *parsedData);
+
 
 
 #endif// __LOGICLAYER_H

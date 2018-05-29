@@ -21,50 +21,69 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok);
 uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok);
 uint8_t delayStructFiller(struct parsed *parsedData, char* tok);
 uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok);
+const char *error_msg(int code);
 extern char string[100];
 char str2[100];
 extern volatile int charcounter;
+uint8_t error = 0;
+
+
+const char *error_msg(int code)
+{
+    switch (code) {
+        ERROR_CODES(ERROR_TEXT)
+    }
+
+    return "Unknown error";
+}
+
+
+
 void InterpretData(struct parsed *parsedData)
 {
 	char *tok;
 
 	char tempString[100];
 	strcpy(str2, string);
-	//UART_printf(sizeof(str2), str2);
+
 	memset(tempString, 0, sizeof tempString);
 	while(1){
 		DELAY_ms(100);
+		if(error > 0)
+		{
+			UART_printf(256, error_msg(error));
+			error = 0;
+		}
 		memset(tempString, 0, sizeof tempString);
 		tok = strtok(string, ",");
 		while(tok != NULL)
 		{
+
 			strcpy(tempString,tok);
 			strcpy(parsedData->text,tok);
 			if(strcmp(tempString,"lijn")== 0)
-				lineStructFiller(parsedData, tok);
+				error = lineStructFiller(parsedData, tok);
 			else if(strcmp( "clearscherm" ,tempString)== 0)
-				clearscreenStructFiller(parsedData, tok);
+				error = clearscreenStructFiller(parsedData, tok);
 			else if(strcmp( "driehoek", tempString)== 0)
-				triangleStructFiller(parsedData, tok);
+				error = triangleStructFiller(parsedData, tok);
 			else if(strcmp( "ellips", tempString)== 0)
-				ellipseStructFiller(parsedData, tok);
+				error = ellipseStructFiller(parsedData, tok);
 			else if(strcmp( "bitmap", tempString)== 0)
-				bitmapStructFiller(parsedData, tok);
+				error = bitmapStructFiller(parsedData, tok);
 			else if(strcmp( "tekst", tempString)== 0)
-				textStructFiller(parsedData, tok);
+				error = textStructFiller(parsedData, tok);
 			else if(strcmp( "wacht", tempString)== 0)
-				delayStructFiller(parsedData, tok);
+				error = delayStructFiller(parsedData, tok);
 			else if(strcmp( "rechthoek", tempString)== 0)
-				rectangleStructFiller(parsedData, tok);
+				error = rectangleStructFiller(parsedData, tok);
 			else
 			{
-				UART_printf(256, "error\n");
 				charcounter = 0;
 				memset(string, 0, sizeof string);
+				error = 7;
 				tok = strtok(NULL, ",");
 			}
-			//charcounter = 0;
-			//memset(string, 0, sizeof string);
 			tok = strtok(NULL, ",");
 			memset(tempString, 0, sizeof tempString);
 		}
@@ -74,7 +93,7 @@ void InterpretData(struct parsed *parsedData)
 //@TODO rename
 uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 {
-	//char *tok = strtok(string, " ,.-");
+	uint8_t error;
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -102,13 +121,14 @@ uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	UB_VGA_drawLine(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],parsedData->width, parsedData->color);
+	error = UB_VGA_drawLine(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],parsedData->width, parsedData->color);
 	tok = strtok(NULL, ",");
-	return 0;
+	return error;
 }
 
 uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 {
+	uint8_t error;
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -134,7 +154,7 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	UB_VGA_drawRectangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],   parsedData->color);
+	error = UB_VGA_drawRectangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],   parsedData->color);
 	return 0;
 }
 
@@ -142,6 +162,7 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t counter = 0;
+	uint8_t error;
 	while(tok != NULL)
 	{
 		tok = strtok(NULL, ",");
@@ -166,7 +187,7 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	UB_VGA_drawEllipse(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],  parsedData->color);
+	error = UB_VGA_drawEllipse(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1],  parsedData->color);
 	return 0;
 }
 
@@ -174,6 +195,7 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t counter = 0;
+	uint8_t error;
 	while(tok != NULL)
 	{
 		tok = strtok(NULL, ",");
@@ -202,12 +224,13 @@ uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	UB_VGA_drawTriangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1], parsedData->x[2], parsedData->y[2],  parsedData->color);
+	error = UB_VGA_drawTriangle(parsedData->x[0], parsedData->y[0], parsedData->x[1], parsedData->y[1], parsedData->x[2], parsedData->y[2],  parsedData->color);
 	return 0;
 }
 
 uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 {
+	uint8_t error;
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -229,13 +252,13 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	Draw_Bitmap(parsedData->bitmapNr,parsedData->x[0], parsedData->y[0]);
+	error = Draw_Bitmap(parsedData->bitmapNr,parsedData->x[0], parsedData->y[0]);
 	return 0;
 }
 
 uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 {
-	//char *tok = strtok(string, " ,.-");
+	uint8_t error;
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -259,13 +282,14 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
+	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
 	return 0;
 }
 
 
 uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 {
+	uint8_t error;
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -282,12 +306,13 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 	}
 //	charcounter = 0;
 //	memset(string, 0, sizeof string);
-	DELAY_ms(parsedData->timeMS);
+	error = DELAY_ms(parsedData->timeMS);
 	return 0;
 }
 
 uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 {
+	uint8_t error;
 	uint8_t counter = 0;
 	while(tok != NULL)
 	{
@@ -304,7 +329,7 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	UB_VGA_FillScreen(parsedData->color);
+	error = UB_VGA_FillScreen(parsedData->color);
 	return 0;
 }
 
