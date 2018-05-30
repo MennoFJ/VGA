@@ -1,16 +1,20 @@
-/*
-Author: 	M.F. Janssen
-Date:		19-05-2018
-Revision:	1
-
-
-    LogicLayer.c:
-          Inits all needed functions
-
-    pin-info:
-           --
+/**
+ ***************************************************************
+ *@file 	ioLayer.c
+ *@author 	Menno Janssen and Benno Driessen
+ *@date		19 may 2018
+ *@brief	Logic layer of the demo program. This file contains a way to parse the incoming string and call the functions in the VGA_lib to draw the shapes.
+ ***************************************************************
  */
+//--------------------------------------------------------------
+// Includes
+//--------------------------------------------------------------
 #include "LogicLayer.h"
+
+
+//-------------------------------------------------------------
+//internal functions
+//--------------------------------------------------------------
 
 uint8_t lineStructFiller(struct parsed *parsedData, char* tok);
 uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok);
@@ -22,12 +26,18 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok);
 uint8_t delayStructFiller(struct parsed *parsedData, char* tok);
 uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok);
 const char *error_msg(int code);
-extern char string[100];
+extern char string[100];//UART buffer
 char str2[100];
-extern volatile int charcounter;
+extern volatile int charcounter;//UART buffer counter
 uint8_t error = 0;
 
 
+
+/**
+ * @brief Uses an X-macro to get the error message (defined in logicLayer.h) for a given error code.
+ * @param code: the error code that needs to be displayed.
+ * @retval error message
+ */
 const char *error_msg(int code)
 {
     switch (code) {
@@ -37,29 +47,41 @@ const char *error_msg(int code)
     return "Unknown error";
 }
 
-
+/**
+ * @brief Takes the data from the UART and separetes the data on every comma using strtok.
+ * The functions checks for a command, this can be:
+ * 	- "lijn"
+ * 	- "clearscherm"
+ * 	- "driehoek"
+ * 	- "ellips"
+ * 	- "bitmap"
+ * 	- "tekst"
+ * 	- "wacht"
+ * 	- "rechthoek"
+ * 	When the command is detected the appropriate function to fill the parsedData struct will be called.
+ *
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @retval void
+ */
 
 void InterpretData(struct parsed *parsedData)
 {
 	char *tok;
-
 	char tempString[100];
 	strcpy(str2, string);
 
 	memset(tempString, 0, sizeof tempString);
 	while(1){
-		DELAY_ms(50);//100
+		//delay to give the UART some time.
+		DELAY_ms(50);
 		if(error > 0)
 		{
 			UART_printf(256, error_msg(error));
 			error = 0;
 		}
-//		memset(tempString, 0, sizeof tempString);
-
 		tok = strtok(string, ",");
 		while(tok != NULL)
 		{
-
 			strcpy(tempString,tok);
 			strcpy(parsedData->text,tok);
 			if(strcmp("lijn", tempString)== 0)
@@ -80,8 +102,10 @@ void InterpretData(struct parsed *parsedData)
 				error = rectangleStructFiller(parsedData, tok);
 			else
 			{
+				//resets the UART counter and clears the buffer
 				charcounter = 0;
 				memset(string, 0, sizeof string);
+				//unknown command error
 				error = 6;
 				tok = strtok(NULL, ",");
 			}
@@ -91,13 +115,28 @@ void InterpretData(struct parsed *parsedData)
 	}
 
 }
-//@TODO rename
+/**
+ * @brief Fills the Parsedata struct with all the parameters the drawLine functions from the ub_vga_lib needs.
+ * These are:
+ * 	- x[0] (x_start)
+ * 	- y[0] (y_start)
+ * 	- x[1] (x_stop)
+ * 	- y[1] (y_stop)
+ * 	- width
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the drawLine function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t error;
 	uint8_t counter = 0;
+	//checks for end of data
 	while(tok != NULL)
 	{
+		//increments to the next datapoint after a comma.
 		tok = strtok(NULL, ",");
 
 		switch(counter)
@@ -114,6 +153,7 @@ uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 5: parsedData->color =  getColor(tok);
 		break;
+		//too many arguments.
 		case 6: error = 7;
 		break;
 		default:
@@ -128,7 +168,19 @@ uint8_t lineStructFiller(struct parsed *parsedData, char* tok)
 	tok = strtok(NULL, ",");
 	return error;
 }
-
+/**
+ * @brief Fills the Parsedata struct with all the parameters the drawRectangle functions from the ub_vga_lib needs.
+ * These are:
+ * 	- x[0] (x_lo)
+ * 	- y[0] (y_lo)
+ * 	- x[1] (x_rb)
+ * 	- y[1] (y_rb)
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the drawRectangle function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t error;
@@ -149,6 +201,7 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 4: parsedData->color =  getColor(tok);
 		break;
+		//too many arguments.
 		case 5: error = 7;
 		break;
 		default:
@@ -163,7 +216,19 @@ uint8_t rectangleStructFiller(struct parsed *parsedData, char* tok)
 	return error;
 }
 
-
+/**
+ * @brief Fills the Parsedata struct with all the parameters the drawEllipse functions from the ub_vga_lib needs.
+ * These are:
+ * 	- x[0] (x_mp)
+ * 	- y[0] (y_mp)
+ * 	- x[1] (x_radius)
+ * 	- y[1] (y_radius)
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the drawEllipse function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t counter = 0;
@@ -198,7 +263,21 @@ uint8_t ellipseStructFiller(struct parsed *parsedData, char* tok)
 	return error;
 }
 
-
+/**
+ * @brief Fills the Parsedata struct with all the parameters the drawTriangle functions from the ub_vga_lib needs.
+ * These are:
+ * 	- x[0] (x_one)
+ * 	- y[0] (y_one)
+ * 	- x[1] (x_two)
+ * 	- y[1] (y_two)
+ * 	- x[2] (x_three)
+ * 	- y[2] (y_three)
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the drawtriangle function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t counter = 0;
@@ -237,6 +316,17 @@ uint8_t triangleStructFiller(struct parsed *parsedData, char* tok)
 	return error;
 }
 
+/**
+ * @brief Fills the Parsedata struct with all the parameters the drawBitmap functions from the ub_vga_lib needs.
+ * These are:
+ * 	- bitmapNr (nr)
+ * 	- x[0] (xp)
+ * 	- y[1] (yp)
+ * 	After filling the structure it resets the UART and calls the drawBitmap function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t error;
@@ -266,7 +356,18 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 	error = Draw_Bitmap(parsedData->bitmapNr,parsedData->x[0], parsedData->y[0]);
 	return error;
 }
-
+/**
+ * @brief Fills the Parsedata struct with all the parameters the drawText functions from the ub_vga_lib needs.
+ * These are:
+ * 	- x[0] (x0)
+ * 	- y[0] (y0)
+ * 	- text (text)
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the drawText function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t error;
@@ -290,16 +391,23 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 		default:
 			break;
 		}
-//tekst
 		counter++;
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
+	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color, "norm");
 	return error;
 }
 
-
+/**
+ * @brief Fills the Parsedata struct with all the parameters the DELAY_ms functions from the ub_vga_lib needs.
+ * These are:
+ * 	- timeMS (time)
+ * 	After filling the structure it the DELAY_ms function from the ub_vga_lib. This function does not reset the UART to allow it te receive new data during the delay.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t error;
@@ -319,12 +427,19 @@ uint8_t delayStructFiller(struct parsed *parsedData, char* tok)
 		}
 		counter++;
 	}
-//	charcounter = 0;
-//	memset(string, 0, sizeof string);
 	error = DELAY_ms(parsedData->timeMS);//timeMS
 	return error;
 }
 
+/**
+ * @brief Fills the Parsedata struct with all the parameters the clearscreen functions from the ub_vga_lib needs.
+ * These are:
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the clearscreen function from the ub_vga_lib.
+ * @param parsedData: The structure containing data such as x and y coordinates and color to use when drawing shapes from the LIB.
+ * @param tok: the string token to split the string on a comma.
+ * @retval error value
+ */
 uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 {
 	uint8_t error;
@@ -350,6 +465,37 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
 	return error;
 }
 
+/**
+ * @brief This function converts a string into a color value. Accepted string are:
+ *  - "rood"
+ *  - "blauw"
+ *  - "groen"
+ *  - "zwart"
+ *  - "wit"
+ *  - "cyaan"
+ *  - "magenta"
+ *  - "geel"
+ *  - "lichtblauw"
+ *  - "lichtgroen"
+ *  - "lichtrood"
+ *  - "lichtcyaan"
+ *  - "lichtmagenta"
+ *  - "bruin"
+ *  - "grijs"
+ *  - "roze"
+ *  - "paars"
+ * These are:
+ * 	- x[0] (x_one)
+ * 	- y[0] (y_one)
+ * 	- x[1] (x_two)
+ * 	- y[1] (y_two)
+ * 	- x[2] (x_three)
+ * 	- y[2] (y_three)
+ * 	- color
+ * 	After filling the structure it resets the UART and calls the drawtriangle function from the ub_vga_lib.
+ * @param color: The color as a string.
+ * @retval the color value.
+ */
 uint8_t getColor(const char* color)
 {
 	if(strcmp("rood", color)== 0)

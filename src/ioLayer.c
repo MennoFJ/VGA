@@ -1,20 +1,21 @@
-/*
-Author: 	M.F. Janssen
-Date:		19-05-2018
-Revision:	1
-
-
-    ioLayer.c:
-          Inits all needed functions
-
-    pin-info:
-           --
-*/
-
+/**
+ ***************************************************************
+ *@file 	ioLayer.c
+ *@author 	Menno Janssen and Benno Driessen
+ *@date		19 may 2018
+ *@brief	IO layer of the Demo program. All the hardware systems are initialized in this file.
+ ***************************************************************
+ */
 #include "ioLayer.h"
-extern volatile int charcounter;
-extern char string[100];
+extern volatile int charcounter;//UART buffer counter
+extern char string[100];//UART buffer
 
+
+/**
+ * @brief initializes the VGA screen, the delay function, the uart and the uart interrupt.
+ * @param void
+ * @retval void
+ */
 void IO_init(void)
 {
 

@@ -1,15 +1,11 @@
-/*
-Author: 	M.F. Janssen
-Date:		19-05-2018
-Revision:	1
-
-
-    LogicLayer.c:
-          Inits all needed functions
-
-    pin-info:
-           --
-*/
+/**
+ ***************************************************************
+ *@file 	ioLayer.h
+ *@author 	Menno Janssen and Benno Driessen
+ *@date		19 may 2018
+ *@brief	Logic layer of the demo program. This file contains a way to parse the incoming string and call the functions in the VGA_lib to draw the shapes.
+ ***************************************************************
+ */
 
 #ifndef __LOGICLAYER_H
 #define __LOGICLAYER_H
@@ -21,6 +17,7 @@ Revision:	1
 
 /****************Defines********************************/
 
+//Available error codes. This macro turns the integer code into a a string containing the error message.
 #define ERROR_CODES(X)                                          			\
     X(0,    E_SUCCESS,            		"No error at all!")         		\
     X(1,   OUT_OF_BOUND,               	"x or y out of bounds")       	 	\
@@ -36,7 +33,9 @@ Revision:	1
 
 #define ERROR_ENUM(ID, NAME, TEXT) NAME = ID,
 #define ERROR_TEXT(ID, NAME, TEXT) case ID: return TEXT;
+
 /****************Function Prototypes********************/
+void InterpretData(struct parsed *parsedData);
 
 //struct for command data. The data is gathered from the UARD and parsed by the parse function.
 enum {
@@ -54,7 +53,7 @@ typedef struct parsed{
 }parser;
 
 
-void InterpretData(struct parsed *parsedData);
+
 
 
 
