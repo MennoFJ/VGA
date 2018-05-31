@@ -15,6 +15,7 @@
 #include "main.h"
 
 
+
 /****************Defines********************************/
 
 //Available error codes. This macro turns the integer code into a a string containing the error message.
@@ -42,7 +43,7 @@ enum {
 };
 typedef struct parsed{
 	char text[100];
-	char* font;
+	char font[100];
 	uint16_t x[3];
 	uint16_t y[3];
 	uint8_t color;

@@ -8,6 +8,9 @@
  */
 
 #include "main.h"
+
+extern void InterpretData(struct parsed *parsedData);
+
 extern char string[100];
 int main(void)
 {

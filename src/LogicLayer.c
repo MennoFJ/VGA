@@ -73,7 +73,7 @@ void InterpretData(struct parsed *parsedData)
 	memset(tempString, 0, sizeof tempString);
 	while(1){
 		//delay to give the UART some time.
-		DELAY_ms(50);
+		DELAY_ms(150);
 		if(error > 0)
 		{
 			UART_printf(256, error_msg(error));
@@ -386,7 +386,7 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 		break;
 		case 3: parsedData->color =  getColor(tok);
 		break;
-		case 4: error = 7;
+		case 4: strcpy(parsedData->font,tok);
 		break;
 		default:
 			break;
@@ -395,7 +395,7 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
+	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color, parsedData->font);
 	return error;
 }
 

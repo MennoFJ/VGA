@@ -37,7 +37,7 @@
 #define  VGA_COL_MAGENTA        0xE3
 #define  VGA_COL_YELLOW         0xFC
 #define	 VGA_COL_GRAY			0x92
-#define  VGA_COL_BROWN			0xB0
+#define  VGA_COL_BROWN			0x44
 
 
 #define  VGA_COL_LBLUE          0x97
@@ -45,7 +45,6 @@
 #define  VGA_COL_LRED           0xF2
 #define  VGA_COL_LCYAN          0x9B
 #define  VGA_COL_LMAGENTA       0xD3
-#define  VGA_COL_BROWN          0x80
 #define  VGA_COL_GREY	        0x92
 #define  VGA_COL_PINK	        0xF6
 #define  VGA_COL_PURPLE	        0x82
@@ -67,7 +66,7 @@ uint8_t UB_VGA_clearscreen(uint8_t color);
 uint8_t UB_VGA_FillScreen(uint8_t color);
 uint8_t UB_VGA_SetPixel(uint16_t xp, uint16_t yp, uint8_t color);
 uint8_t Draw_Bitmap(uint8_t nr,uint16_t xp, uint16_t yp);
-uint8_t Draw_Text(uint16_t x0, uint16_t y0, uint8_t *text, uint8_t color);
+uint8_t Draw_Text(uint16_t x0, uint16_t y0, uint8_t *text, uint8_t color, uint8_t *font);
 
 
 
