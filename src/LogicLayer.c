@@ -395,7 +395,7 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color, "norm");
+	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color);
 	return error;
 }
 
@@ -484,15 +484,6 @@ uint8_t clearscreenStructFiller(struct parsed *parsedData, char* tok)
  *  - "grijs"
  *  - "roze"
  *  - "paars"
- * These are:
- * 	- x[0] (x_one)
- * 	- y[0] (y_one)
- * 	- x[1] (x_two)
- * 	- y[1] (y_two)
- * 	- x[2] (x_three)
- * 	- y[2] (y_three)
- * 	- color
- * 	After filling the structure it resets the UART and calls the drawtriangle function from the ub_vga_lib.
  * @param color: The color as a string.
  * @retval the color value.
  */

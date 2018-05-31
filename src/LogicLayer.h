@@ -35,7 +35,6 @@
 #define ERROR_TEXT(ID, NAME, TEXT) case ID: return TEXT;
 
 /****************Function Prototypes********************/
-void InterpretData(struct parsed *parsedData);
 
 //struct for command data. The data is gathered from the UARD and parsed by the parse function.
 enum {
