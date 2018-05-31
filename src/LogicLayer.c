@@ -353,7 +353,7 @@ uint8_t bitmapStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	error = Draw_Bitmap(parsedData->bitmapNr,parsedData->x[0], parsedData->y[0]);
+	error = UB_VGA_drawBitmap(parsedData->bitmapNr,parsedData->x[0], parsedData->y[0]);
 	return error;
 }
 /**
@@ -395,7 +395,7 @@ uint8_t textStructFiller(struct parsed *parsedData, char* tok)
 	}
 	charcounter = 0;
 	memset(string, 0, sizeof string);
-	error = Draw_Text(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color, parsedData->font);
+	error = UB_VGA_drawText(parsedData->x[0] , parsedData->y[0],parsedData->text , parsedData->color, parsedData->font);
 	return error;
 }
 
